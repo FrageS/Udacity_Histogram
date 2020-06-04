@@ -106,13 +106,27 @@ vector< vector <float> > initialize_beliefs(vector< vector <char> > grid) {
 vector< vector <float> > move(int dy, int dx, 
   vector < vector <float> > beliefs,
   float blurring) 
-{
+{  	
+	int rows = beliefs.size();
+	int columns = 0;
+	if(rows > 0)
+	{
+		columns = beliefs[0].size();
+	}
+    vector < vector <float> > newGrid(rows, vector<float>(columns));
+    int loc_x, loc_y;
+  
+  	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < columns; j++)
+		{
+			loc_x = (i + 1) % rows;
+			loc_y = (j + 1) % columns;
+			newGrid[loc_x][loc_y] = beliefs[i][j];
+		}
+	}
 
-  vector < vector <float> > newGrid;
-
-  // your code here
-
-  return blur(newGrid, blurring);
+  	return blur(newGrid, blurring);
 }
 
 
