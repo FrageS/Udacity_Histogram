@@ -173,9 +173,34 @@ vector< vector <float> > sense(char color,
 	float p_hit,
 	float p_miss) 
 {
-	vector< vector <float> > newGrid;
-
+	
 	// your code here
+	int rows = beliefs.size();
+	int columns = 0;
+	if(rows > 0)
+	{
+		columns = beliefs[0].size();
+	}
+    vector < vector <float> > newGrid;	
+	vector <float> row;
+	row.clear();
+    
+	for(int i=0; i < rows; i++)
+	{
+		for(int j=0; j < columns; j++)
+		{
+			if(color == grid[i][j])
+			{
+				row.push_back(beliefs[i][j] * p_hit);
+			}
+			else
+			{
+				row.push_back(beliefs[i][j] * p_miss);
+			}
+		}
+		newGrid.push_back(row);
+		row.clear();
+	}
 
 	return normalize(newGrid);
 }
