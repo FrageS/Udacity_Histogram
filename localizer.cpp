@@ -43,7 +43,22 @@ vector< vector <float> > initialize_beliefs(vector< vector <char> > grid) {
 	vector< vector <float> > newGrid;
 
 	// your code here
-	
+	vector<float> row;
+	int rows = grid.size();
+	int columns = grid[0].size();
+	float size = (rows*columns);    
+    float normalizer = 1/size;
+
+	for(int i=0; i<rows;i++)
+	{
+		for(int j=0; j<columns; j++)
+		{
+			row.push_back(normalizer);		
+		}
+        newGrid.push_back(row);
+        row.clear();	
+	}
+
 	return newGrid;
 }
 
