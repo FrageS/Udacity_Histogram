@@ -45,7 +45,11 @@ vector< vector <float> > initialize_beliefs(vector< vector <char> > grid) {
 	// your code here
 	vector<float> row;
 	int rows = grid.size();
-	int columns = grid[0].size();
+	int columns = 0;
+	if(rows > 0)
+	{
+		columns = grid[0].size();
+	}
 	float size = (rows*columns);    
     float normalizer = 1/size;
 

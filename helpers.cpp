@@ -35,8 +35,35 @@ using namespace std;
 vector< vector<float> > normalize(vector< vector <float> > grid) {
 	
 	vector< vector<float> > newGrid;
-
+	
 	// todo - your code here
+	int rows = grid.size();
+	int columns = 0;
+	if(rows > 0)
+	{
+		columns = grid[0].size();
+	}	
+
+	vector<float> row;
+
+	float sum = 0;
+	for(int i=0; i<rows;i++)
+	{
+		for(int j=0; j<columns; j++)
+		{
+			sum += grid[i][j];		
+		}        	
+	}
+
+	for(int i=0; i<rows;i++)
+	{
+		for(int j=0; j<columns; j++)
+		{            
+			row.push_back(grid[i][j]/sum);		
+		}		
+        newGrid.push_back(row);
+        row.clear();
+	}
 
 	return newGrid;
 }
@@ -76,9 +103,37 @@ vector< vector<float> > normalize(vector< vector <float> > grid) {
 */
 vector < vector <float> > blur(vector < vector < float> > grid, float blurring) {
 
-	vector < vector <float> > newGrid;
+	int rows = grid.size();
+	int columns = 0;
+	if(rows > 0)
+	{
+		columns = grid[0].size();
+	}
+	vector < vector <float> > newGrid = zeros(rows,columns);
+	int loc_y, loc_x;	 
+	float center_blur = 1-0.12;
+    float corner_blur = blurring/12;
+    float edge_blur = blurring/6;
+	vector< vector <float> > blur_window { {corner_blur, edge_blur, corner_blur},
+                                            {edge_blur, center_blur, edge_blur},
+                                            {corner_blur, edge_blur, corner_blur}};	
 	
-	// your code here
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < columns; j++)
+		{
+			for (int dy = 0; dy < 3; dy++)
+			{
+				for (int dx = 0; dx < 3; dx++)
+				{					
+					loc_y = (i + dy - 1) % rows;
+                    if(loc_y < 0) loc_y = rows -1;
+                    loc_x = (j + dx -1) % columns;
+                    if(loc_x < 0) loc_x = columns -1;
+                    newGrid[loc_y][loc_x] += grid[i][j]*blur_window[dy][dx];  
+				}
+			}
+		}
+	}
 
 	return normalize(newGrid);
 }
